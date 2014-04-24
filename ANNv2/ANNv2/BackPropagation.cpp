@@ -12,6 +12,10 @@ void BackPropagation::train(NeuralNet &net, double learningRate){
 	Mat samples = net.getProblem().samples;
 	Mat outputs = net.getProblem().outputs;
 
+	this->w_count = 0;
+	foreach_(Mat wi, net.w) {
+		this->w_count += (wi.rows) * wi.cols;
+	}
 
 	int iter = 0;
 	do {
@@ -23,12 +27,16 @@ void BackPropagation::train(NeuralNet &net, double learningRate){
 			this->forwardpass(net, x);
 			this->backwardpass(net, y);
 
+			// regularization
+			net.error = net.regularizationFactor * net.error + (1 - net.regularizationFactor) * (this->w_squaredsum / (double)this->w_count);
+			
 			if (iter % 1000 == 0){
-				cout << "input " << x << " class " << y << " predicted " << net.h << endl;
+				cout << "input " << x << " class " << y << " predicted " << net.h << endl;				
 			}
 		}
 
 		if (iter % 1000 == 0) {
+			cout << "iter: " << iter << "\t" << "error: " << net.error << endl;
 			cout << endl;
 		}
 
@@ -49,7 +57,7 @@ void BackPropagation::forwardpass(NeuralNet &net, Mat sample){
 	Mat x = sample;
 
 	this->activations.push_back(x.colRange(0, x.cols - 1));
-	for (int i = 0; i < net.w.size(); ++i){
+	for (int i = 0; i < net.w.size(); ++i) {			
 		Mat sums = x * net.w[i];
 
 		int dim = sums.rows * sums.cols;
@@ -88,10 +96,18 @@ void BackPropagation::backwardpass(NeuralNet &net, Mat y){
 	}
 
 	int i = 0;
+	this->w_squaredsum = 0;
+
 	foreach_(Mat delta, deltas) {
 		Mat d = 0.5 * delta;
-		Mat tmpActivation = d * activations[i];
-		hconcat(tmpActivation, d, tmpActivation);
-		net.w[i++] -= tmpActivation.t();
+		Mat dw = d * activations[i];
+		hconcat(dw, d, dw);
+		net.w[i] -= dw.t();
+
+		// needed for regularization
+		Mat tmpW = net.w[i].mul(net.w[i]);
+		this->w_squaredsum += sum(tmpW)[0];
+
+		++i;
 	}
 }

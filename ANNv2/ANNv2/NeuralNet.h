@@ -15,10 +15,10 @@ using namespace std;
 class NeuralNet {
 private:
 	Problem problem;
-
+	
 public:
 	NeuralNet(const Problem &problem, vector<int> args);
-	NeuralNet(const Problem &problem, vector<int> args, double epsilon, ActivationFunc *af);
+	NeuralNet(const Problem &problem, vector<int> args, double epsilon, double regularizationFactor, ActivationFunc *af);
 	Problem getProblem() { return this->problem; }
 	Mat predict(Mat &sample);
 	~NeuralNet();
@@ -28,6 +28,7 @@ public:
 	ActivationFunc *af = 0;
 	double epsilon;
 	double error;
+	double regularizationFactor;
 };
 
 #endif neuralnet_h

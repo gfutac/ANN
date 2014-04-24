@@ -13,10 +13,11 @@ using namespace std;
 
 #define foreach_ BOOST_FOREACH
 
-NeuralNet::NeuralNet(const Problem &problem, const vector<int> args, double epsilon, ActivationFunc *af){
+NeuralNet::NeuralNet(const Problem &problem, const vector<int> args, double epsilon, double regularizationFactor, ActivationFunc *af){
 	this->epsilon = epsilon;
 	this->problem = problem;
 	this->af = af;
+	this->regularizationFactor = regularizationFactor;
 
 	std::default_random_engine generator((unsigned long)time(0));
 	std::normal_distribution<double> distribution(0, 0.5);
@@ -34,7 +35,7 @@ NeuralNet::NeuralNet(const Problem &problem, const vector<int> args, double epsi
 }
 
 NeuralNet::NeuralNet(const Problem &problem, vector<int> args) :
-NeuralNet(problem, args, 0.0005, new Sigmoid()) { }
+NeuralNet(problem, args, 0.0005, 1.0, new Sigmoid()) { }
 
 Mat NeuralNet::predict(Mat &sample){
 	Mat x = sample;

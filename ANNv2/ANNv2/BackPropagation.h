@@ -15,6 +15,9 @@ private:
 	vector<Mat> derivations;
 	list<Mat> deltas;
 
+	int w_count;
+	double w_squaredsum;
+
 	void forwardpass(NeuralNet &net, Mat sample);
 	void backwardpass(NeuralNet &net, Mat y);
 
