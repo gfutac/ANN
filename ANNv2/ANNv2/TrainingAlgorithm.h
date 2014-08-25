@@ -12,6 +12,9 @@ class NeuralNet;
 class TrainingAlgorithm {
 public:
 	virtual void train(NeuralNet &net, double learningRate) = 0;
+
+	double learningRate;
+	double weightDecay = 0;
 };
 
 #endif trainingalgorithm_h

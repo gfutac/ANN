@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <memory>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
@@ -33,19 +34,14 @@ int main(int argc, char **argv){
 
 	const string filename = "D:\\test.txt";
 
+	auto ta = unique_ptr<TrainingAlgorithm>(new BackPropagation);
+
 	Problem problem(filename, " ");
-	NeuralNet nn(problem, layers(2, 2, 1));
-	nn.epsilon = 0.0001;
-	nn.regularizationFactor = 1;
-	nn.af = new Tanh();
+	NeuralNet nn(problem, layers(2, 3, 1), 0.0001, 1, unique_ptr<ActivationFunc>(new Tanh));
 
-	// train ann with backpropagation
-	TrainingAlgorithm *ta = new BackPropagation();
 	double learningRate = 0.5;
+	ta->weightDecay = 1;
 	ta->train(nn, learningRate);
-
-
-	delete ta;
 
 	system("pause");
 	return EXIT_SUCCESS;

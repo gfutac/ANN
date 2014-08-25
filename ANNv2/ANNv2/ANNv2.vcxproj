@@ -73,8 +73,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\goran.futac\Desktop\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\goran.futac\Desktop\opencv\build\x64\vc12\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\opencv248\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv248\build\x64\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
