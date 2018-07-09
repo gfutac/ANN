@@ -17,5 +17,3 @@ contains samples and expected outputs, separated with space.
 eq, if dimensionality is 2,
 1 0 1 represetnes sample [1, 0], and output [1]
 
-
-I'm planning to add layer sizes in same file too (currently they are hardcoded, this is still under heavy development :))
